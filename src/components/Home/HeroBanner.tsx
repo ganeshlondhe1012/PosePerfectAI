@@ -1,0 +1,7 @@
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import {useApp} from '../../context/AppContext';
+import {t} from '../../i18n';
+export default function HeroBanner({ onPress }: { onPress: () => void }) { const {language}=useApp(); return <ImageBackground source={require('../../assets/images/heroBanner.jpg')} imageStyle={styles.image} style={styles.container}><View style={styles.overlay}><Text style={styles.title}>{language==='hi'?<>अपनी{`\n`}योग यात्रा शुरू करें</>:<>Start Your{`\n`}Yoga Journey</>}</Text><Text style={styles.subtitle}>{language==='hi'?'एआई गाइडेंस के साथ':'with AI Guidance'}</Text><TouchableOpacity style={styles.button} onPress={onPress} activeOpacity={0.85}><Ionicons name="play" size={16} color="#fff" /><Text style={styles.buttonText}>{t(language,'startSession')}</Text></TouchableOpacity></View></ImageBackground>; }
+const styles=StyleSheet.create({container:{height:250,marginTop:25,borderRadius:25,overflow:'hidden'},image:{borderRadius:25},overlay:{flex:1,justifyContent:'center',paddingHorizontal:22,backgroundColor:'rgba(0,0,0,0.18)'},title:{color:'#fff',fontSize:28,fontWeight:'800',width:'65%'},subtitle:{color:'#fff',fontSize:17,marginTop:8},button:{marginTop:24,backgroundColor:'#2DBE60',width:150,height:46,borderRadius:23,justifyContent:'center',alignItems:'center',flexDirection:'row',gap:8},buttonText:{color:'#fff',fontSize:15,fontWeight:'800'}});

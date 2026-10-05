@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "PosePerfect AI",
+    "slug": "poseperfect-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/images/logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./src/assets/images/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F5FBF8"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow PosePerfect AI to use your camera for yoga posture coaching."
+        }
+      ]
+    ],
+    "android": {
+      "package": "com.poseperfectai.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/images/logo.png",
+        "backgroundColor": "#F5FBF8"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.poseperfectai.app",
+      "supportsTablet": true
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./src/assets/images/logo.png"
+    }
+  }
+}

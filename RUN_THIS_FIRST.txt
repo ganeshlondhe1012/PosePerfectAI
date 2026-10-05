@@ -1,0 +1,31 @@
+POSEPERFECT AI — v21 LOCAL-FIRST WINDOWS SETUP
+
+1. Extract this ZIP into a NEW folder, for example:
+   C:\Yogapose\PosePerfectAI-v16
+
+2. Open that folder in VS Code.
+
+3. Backend setup:
+   cd backend
+   .\setup_windows.bat
+
+4. Test backend:
+   .\run_tests.bat
+
+5. Start FastAPI:
+   .\start_windows.bat
+
+6. In a SECOND terminal, from the project root:
+   npm install
+   npx expo start --web
+
+7. Open the localhost URL printed by Expo and allow camera access.
+
+8. In the pose detail screen, choose English or हिन्दी. Review the pose preview, then press Start Coaching.
+
+9. Register/login from the welcome screen. Your profile, favorites and results persist locally on this device.
+
+IMPORTANT:
+- Browser pose inference is local and does not wait for FastAPI per frame.
+- Do not copy this project into an older PosePerfectAI folder.
+- If backend setup is interrupted, rerun setup_windows.bat.
