@@ -9,15 +9,3 @@ backend/app/__pycache__/
 backend/tests/__pycache__/
 backend/models/*.task
 backend/models/*.download
-.venv/
-venv/
-
-.vscode/
-.DS_Store
-Thumbs.db
-
-!.env.example
-
-web-build/
-
-dist/

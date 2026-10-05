@@ -9,3 +9,7 @@
 .demo-steps{display:grid;gap:6px}.demo-steps>div{display:flex;gap:8px;align-items:flex-start;padding:7px 8px;border-radius:10px;background:#0a1612;border:1px solid #173229}.demo-steps b{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#183c2c;color:#8ce8b1;font-size:9px;flex:none}.demo-steps span{font-size:10px;color:#d6ebe1;line-height:1.45}
 .demo-stage>button{width:100%;margin-top:11px;height:44px;border:0;border-radius:12px;background:#1aca72;color:#fff;font-weight:900;cursor:pointer}.demo-stage>button:disabled{opacity:.5}
 @media(max-width:680px){.demo-stage{width:calc(100% - 12px);padding:15px}.demo-pose-image{height:160px}.demo-stage strong{font-size:18px}.demo-steps span{font-size:9px}}
+
+.mobile-stop-btn{display:none;position:absolute;top:70px;right:14px;z-index:6;min-height:44px;padding:0 14px;border:1px solid #ff9aa0;border-radius:12px;background:#c93642eF;color:#fff;font-size:11px;font-weight:900;box-shadow:0 8px 24px #0005;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.mobile-stop-btn:active{transform:scale(.97)}
+
+@media(max-width:950px){.mobile-stop-btn{display:block}}

@@ -418,9 +418,33 @@ export default function WebCameraCoach({ pose }: Props) {
       createdAt: new Date().toISOString(),
       language,
     });
-    try { const { stopSession } = await import('../services/api'); await stopSession(); } catch {}
+    // Local progress is saved above and must never wait for the optional backend.
+    // On the deployed web app the FastAPI service may be unavailable, so stopping
+    // the camera/UI must remain immediate.
     stopCamera(true);
+    void import('../services/api').then(({ stopSession }) => {
+      const timeout = new Promise((resolve) => window.setTimeout(resolve, 800));
+      return Promise.race([stopSession().catch(() => undefined), timeout]);
+    }).catch(() => {});
   }, [addSession, elapsed, language, message, pose.id, pose.title, score, stopCamera]);
+
+  // Protect every navigation path (including Android/browser back). If a session
+  // is active, save it first, then replay the original navigation action.
+  useEffect(() => {
+    return navigation.addListener('beforeRemove', (event) => {
+      if (!runningRef.current) return;
+      event.preventDefault();
+      void stop().then(() => navigation.dispatch(event.data.action));
+    });
+  }, [navigation, stop]);
+
+  // On mobile the side panel is intentionally hidden, so the header back action
+  // must finish/save an active session before navigating away. Previously the
+  // component cleanup only stopped the camera and discarded the active session.
+  const handleBack = useCallback(async () => {
+    if (runningRef.current) await stop();
+    navigation.goBack();
+  }, [navigation, stop]);
 
   useEffect(() => {
     try {
@@ -446,7 +470,7 @@ export default function WebCameraCoach({ pose }: Props) {
   return (
     <div className="coach-app">
       <header className="coach-header">
-        <button className="back-btn" onClick={() => navigation.goBack()} aria-label="Back">←</button>
+        <button className="back-btn" onClick={handleBack} aria-label="Back">←</button>
         <div><strong>PosePerfect AI</strong><span>{t(language,'realtimeLocal')}</span></div>
         <span className={`ready-pill ${modelReady ? 'ready' : ''}`}>{modelReady ? t(language,'ready').toUpperCase() : t(language,'loadingModel').replace('…','').toUpperCase()}</span>
       </header>
@@ -477,6 +501,7 @@ export default function WebCameraCoach({ pose }: Props) {
             <video ref={videoRef} muted playsInline autoPlay />
             <canvas ref={canvasRef} />
             {running && <div className={`live-badge ${detected ? 'tracked' : ''} ${good ? 'correct' : ''}`}><i />{t(language,'live')} • {detected ? t(language,'bodyTracked') : t(language,'searching')}</div>}
+            {running && <button className="mobile-stop-btn" onClick={stop} aria-label={t(language,'stopSession')}>■ {t(language,'stopSession')}</button>}
             <div className="score-badge"><span>MATCH</span><strong className={good ? 'good' : ''}>{score}%</strong></div>
             <div className={`pose-badge ${good ? 'good' : ''}`}><span>{icon}</span><div><b>{pose.title}</b><small>{status}</small></div></div>
             <div className="coach-message"><b>{good ? t(language,'correctAlignment') : message}</b>{!good && correction && <span>{correction}</span>}</div>
