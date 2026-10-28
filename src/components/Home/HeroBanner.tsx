@@ -21,6 +21,7 @@ export default function HeroBanner({
   onPress: () => void;
 }) {
   const { language } = useApp();
+
   const { width } = useWindowDimensions();
 
   const isMobile = width < 600;
@@ -29,8 +30,8 @@ export default function HeroBanner({
   const heroHeight = isMobile
     ? 360
     : isTablet
-    ? 340
-    : 380;
+    ? 400
+    : 460;
 
   const titleFontSize = isMobile
     ? 25
@@ -53,19 +54,8 @@ export default function HeroBanner({
           height: heroHeight,
         },
       ]}
-      imageStyle={[
-        styles.image,
-        {
-          resizeMode: isMobile ? 'contain' : 'cover',
-
-          // Mobile: preserve the complete image.
-          // Desktop: position the crop toward the upper part
-          // so the face is less likely to be cut off.
-          objectPosition: isMobile
-            ? 'center center'
-            : 'center 10%',
-        },
-      ]}
+      imageStyle={styles.image}
+      resizeMode="contain"
     >
       {/* Hero content */}
       <View
@@ -73,10 +63,9 @@ export default function HeroBanner({
           styles.overlay,
           {
             paddingHorizontal: isMobile ? 18 : 28,
-
             backgroundColor: isMobile
-              ? 'rgba(0,0,0,0.30)'
-              : 'rgba(0,0,0,0.28)',
+              ? 'rgba(0,0,0,0.28)'
+              : 'rgba(0,0,0,0.22)',
           },
         ]}
       >
@@ -163,6 +152,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 25,
+    resizeMode: 'contain',
   },
 
   overlay: {
