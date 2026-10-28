@@ -57,6 +57,13 @@ export default function HeroBanner({
         styles.image,
         {
           resizeMode: isMobile ? 'contain' : 'cover',
+
+          // Mobile: preserve the complete image.
+          // Desktop: position the crop toward the upper part
+          // so the face is less likely to be cut off.
+          objectPosition: isMobile
+            ? 'center center'
+            : 'center 10%',
         },
       ]}
     >
@@ -66,6 +73,7 @@ export default function HeroBanner({
           styles.overlay,
           {
             paddingHorizontal: isMobile ? 18 : 28,
+
             backgroundColor: isMobile
               ? 'rgba(0,0,0,0.30)'
               : 'rgba(0,0,0,0.28)',
