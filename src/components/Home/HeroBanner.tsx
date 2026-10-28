@@ -21,7 +21,6 @@ export default function HeroBanner({
   onPress: () => void;
 }) {
   const { language } = useApp();
-
   const { width } = useWindowDimensions();
 
   const isMobile = width < 600;
@@ -32,6 +31,18 @@ export default function HeroBanner({
     : isTablet
     ? 340
     : 380;
+
+  const titleFontSize = isMobile
+    ? 25
+    : isTablet
+    ? 29
+    : 34;
+
+  const titleLineHeight = isMobile
+    ? 36
+    : isTablet
+    ? 40
+    : 46;
 
   return (
     <ImageBackground
@@ -49,24 +60,25 @@ export default function HeroBanner({
         },
       ]}
     >
-      {/* Dark overlay for readable text */}
+      {/* Hero content */}
       <View
         style={[
           styles.overlay,
           {
             paddingHorizontal: isMobile ? 18 : 28,
             backgroundColor: isMobile
-              ? 'rgba(0,0,0,0.22)'
+              ? 'rgba(0,0,0,0.30)'
               : 'rgba(0,0,0,0.28)',
           },
         ]}
       >
-        {/* Hero title */}
+        {/* Main heading */}
         <Text
           style={[
             styles.title,
             {
-              fontSize: isMobile ? 25 : isTablet ? 29 : 34,
+              fontSize: titleFontSize,
+              lineHeight: titleLineHeight,
               width: isMobile ? '78%' : '55%',
             },
           ]}
@@ -92,6 +104,7 @@ export default function HeroBanner({
             styles.subtitle,
             {
               fontSize: isMobile ? 15 : 17,
+              lineHeight: isMobile ? 24 : 27,
             },
           ]}
         >
@@ -153,13 +166,14 @@ const styles = StyleSheet.create({
   title: {
     color: '#FFFFFF',
     fontWeight: '800',
-    lineHeight: 1.3,
+    includeFontPadding: true,
   },
 
   subtitle: {
     color: '#FFFFFF',
-    marginTop: 8,
+    marginTop: 12,
     fontWeight: '500',
+    includeFontPadding: true,
   },
 
   button: {
@@ -179,4 +193,3 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
 });
-
