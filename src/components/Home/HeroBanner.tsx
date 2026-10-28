@@ -1,5 +1,6 @@
 
 import React from 'react';
+
 import {
   ImageBackground,
   StyleSheet,
@@ -10,6 +11,7 @@ import {
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
+
 import { useApp } from '../../context/AppContext';
 import { t } from '../../i18n';
 
@@ -19,58 +21,104 @@ export default function HeroBanner({
   onPress: () => void;
 }) {
   const { language } = useApp();
+
   const { width } = useWindowDimensions();
 
   const isMobile = width < 600;
+  const isTablet = width >= 600 && width < 1024;
+
+  const heroHeight = isMobile
+    ? 360
+    : isTablet
+    ? 340
+    : 380;
 
   return (
     <ImageBackground
       source={require('../../assets/images/heroBanner.jpg')}
-      resizeMode="cover"
-      imageStyle={[
-        styles.image,
-        isMobile ? styles.mobileImage : styles.desktopImage,
-      ]}
       style={[
         styles.container,
-        isMobile ? styles.mobileContainer : styles.desktopContainer,
+        {
+          height: heroHeight,
+        },
+      ]}
+      imageStyle={[
+        styles.image,
+        {
+          resizeMode: isMobile ? 'contain' : 'cover',
+        },
       ]}
     >
+      {/* Dark overlay for readable text */}
       <View
         style={[
           styles.overlay,
-          isMobile ? styles.mobileOverlay : styles.desktopOverlay,
+          {
+            paddingHorizontal: isMobile ? 18 : 28,
+            backgroundColor: isMobile
+              ? 'rgba(0,0,0,0.22)'
+              : 'rgba(0,0,0,0.28)',
+          },
         ]}
       >
+        {/* Hero title */}
         <Text
           style={[
             styles.title,
-            isMobile ? styles.mobileTitle : styles.desktopTitle,
+            {
+              fontSize: isMobile ? 25 : isTablet ? 29 : 34,
+              width: isMobile ? '78%' : '55%',
+            },
           ]}
         >
           {language === 'hi' ? (
             <>
-              अपनी{'\n'}योग यात्रा शुरू करें
+              अपनी
+              {'\n'}
+              योग यात्रा शुरू करें
             </>
           ) : (
             <>
-              Start Your{'\n'}Yoga Journey
+              Start Your
+              {'\n'}
+              Yoga Journey
             </>
           )}
         </Text>
 
-        <Text style={styles.subtitle}>
+        {/* Subtitle */}
+        <Text
+          style={[
+            styles.subtitle,
+            {
+              fontSize: isMobile ? 15 : 17,
+            },
+          ]}
+        >
           {language === 'hi'
             ? 'एआई गाइडेंस के साथ'
             : 'with AI Guidance'}
         </Text>
 
+        {/* Start session button */}
         <TouchableOpacity
-          style={styles.button}
+          style={[
+            styles.button,
+            {
+              width: isMobile ? 165 : 180,
+              height: isMobile ? 46 : 50,
+            },
+          ]}
           onPress={onPress}
           activeOpacity={0.85}
+          accessibilityRole="button"
+          accessibilityLabel={t(language, 'startSession')}
         >
-          <Ionicons name="play" size={16} color="#fff" />
+          <Ionicons
+            name="play"
+            size={16}
+            color="#FFFFFF"
+          />
 
           <Text style={styles.buttonText}>
             {t(language, 'startSession')}
@@ -90,24 +138,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#D6D6D6',
   },
 
-  desktopContainer: {
-    height: 380,
-  },
-
-  mobileContainer: {
-    height: 300,
-  },
-
   image: {
+    width: '100%',
+    height: '100%',
     borderRadius: 25,
-  },
-
-  desktopImage: {
-    resizeMode: 'cover',
-  },
-
-  mobileImage: {
-    resizeMode: 'cover',
   },
 
   overlay: {
@@ -116,41 +150,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
   },
 
-  desktopOverlay: {
-    backgroundColor: 'rgba(0,0,0,0.18)',
-  },
-
-  mobileOverlay: {
-    backgroundColor: 'rgba(0,0,0,0.30)',
-  },
-
   title: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontWeight: '800',
-  },
-
-  desktopTitle: {
-    fontSize: 32,
-    width: '55%',
-  },
-
-  mobileTitle: {
-    fontSize: 25,
-    width: '72%',
+    lineHeight: 1.3,
   },
 
   subtitle: {
-    color: '#fff',
-    fontSize: 16,
+    color: '#FFFFFF',
     marginTop: 8,
+    fontWeight: '500',
   },
 
   button: {
     marginTop: 22,
     backgroundColor: '#2DBE60',
-    width: 165,
-    minHeight: 46,
-    borderRadius: 23,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
@@ -159,8 +174,9 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontSize: 15,
     fontWeight: '800',
   },
 });
+
